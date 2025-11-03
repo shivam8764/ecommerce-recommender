@@ -1,0 +1,6 @@
+product_id,title,category,description,price,img_url
+P001,Wireless Mouse,Electronics,"Ergonomic wireless mouse with 2.4 GHz receiver",19.99,https://example.com/mouse.jpg
+P002,Gaming Keyboard,Electronics,"Mechanical keyboard with RGB lighting and blue switches",59.99,https://example.com/keyboard.jpg
+P003,Noise Cancelling Headphones,Electronics,"Over ear headphones with active noise cancellation and 30hr battery",129.99,https://example.com/headphones.jpg
+P004,Cotton T Shirt,Fashion,"100 percent cotton regular fit t shirt for men",14.99,https://example.com/tshirt.jpg
+P005,Running Shoes,Sports,"Lightweight breathable running shoes for daily training",79.99,https://example.com/shoes.jpg

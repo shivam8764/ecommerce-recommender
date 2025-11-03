@@ -1,0 +1,6 @@
+flask==3.0.3
+pandas==2.2.2
+scikit-learn==1.5.2
+numpy==1.26.4
+redis==5.0.8
+python-dotenv==1.0.1
