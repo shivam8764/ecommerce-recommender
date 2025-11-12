@@ -1,5 +1,3 @@
-
-````markdown
 # E commerce Hybrid Recommendation Engine
 
 Production minded hybrid recommendation system for an online store. Combines content based ranking and item based collaborative filtering, served through Flask REST APIs with Redis caching and an A B testing router. Designed to serve more than 5K products with low latency and clear extensibility.
