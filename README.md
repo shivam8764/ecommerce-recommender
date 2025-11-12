@@ -1,57 +1,51 @@
-Here is a complete `README.md` you can paste into your repo. I kept it GitHub friendly, recruiter friendly, and aligned to your resume lines.
 
----
-
+````markdown
 # E commerce Hybrid Recommendation Engine
 
 Production minded hybrid recommendation system for an online store. Combines content based ranking and item based collaborative filtering, served through Flask REST APIs with Redis caching and an A B testing router. Designed to serve more than 5K products with low latency and clear extensibility.
 
 ## Table of contents
-
-1. Overview
-2. Features
-3. Architecture
-4. Project structure
-5. Data format
-6. Quick start
-7. Configuration
-8. API reference
-9. Caching strategy
-10. A B testing
-11. Evaluation notes
-12. Deployment notes
-13. Troubleshooting
-14. Roadmap
-15. License
+1. Overview  
+2. Features  
+3. Architecture  
+4. Project structure  
+5. Data format  
+6. Quick start  
+7. Configuration  
+8. API reference  
+9. Caching strategy  
+10. A B testing  
+11. Evaluation notes  
+12. Deployment notes  
+13. Troubleshooting  
+14. Roadmap  
+15. License  
+16. .gitignore  
+17. Dockerfile
 
 ## 1. Overview
-
 This project recreates a hybrid recommendation engine similar to the one described in the resume entry. It provides content based item similarity using TF IDF, item based collaborative filtering built from user interactions, and a hybrid scorer that blends both. The service exposes REST endpoints for fetching content based, user based, and hybrid recommendations, and supports an A B router for live experiments. Redis is used to cache responses and reduce average latency for repeated calls.
 
 ## 2. Features
-
-* Content based recommendations from title, category, and description via TF IDF
-* Item based collaborative filtering using user item co occurrence
-* Hybrid scorer that blends content and collaborative scores with adjustable weights
-* Flask REST API with clean JSON responses
-* Redis cache layer with TTL and deterministic cache keys
-* Simple A B assignment based on user id hash
-* Health endpoint and example curl requests
+* Content based recommendations from title, category, and description via TF IDF  
+* Item based collaborative filtering using user item co occurrence  
+* Hybrid scorer that blends content and collaborative scores with adjustable weights  
+* Flask REST API with clean JSON responses  
+* Redis cache layer with TTL and deterministic cache keys  
+* Simple A B assignment based on user id hash  
+* Health endpoint and example curl requests  
 * Small synthetic dataset for quick demo
 
 ## 3. Architecture
-
-Flow
-
-1. Ingestion of product catalog and interaction logs from CSV
-2. Content model builds TF IDF vectors for products and enables similar item search
-3. Collaborative model builds a user by item matrix, computes item item similarities, and ranks new items for a user
-4. Hybrid scorer merges scores from both models
-5. Redis caches responses per query to reduce repeat latency
+Flow  
+1. Ingestion of product catalog and interaction logs from CSV  
+2. Content model builds TF IDF vectors for products and enables similar item search  
+3. Collaborative model builds a user by item matrix, computes item item similarities, and ranks new items for a user  
+4. Hybrid scorer merges scores from both models  
+5. Redis caches responses per query to reduce repeat latency  
 6. A B router assigns users to a variant and serves the chosen strategy
 
 ## 4. Project structure
-
 ```text
 ecommerce-recommender/
 ├── app.py
@@ -69,7 +63,7 @@ ecommerce-recommender/
     ├── hybrid.py
     ├── cache.py
     └── ab_testing.py
-```
+````
 
 ## 5. Data format
 
@@ -126,7 +120,8 @@ Start Redis locally
 brew services start redis
 # Linux
 redis-server
-# Windows (use Redis in Docker or Redis for Windows port)
+# Windows
+docker run -p 6379:6379 redis:7
 ```
 
 Run the API
@@ -184,8 +179,7 @@ Response:
 {
   "source": "model or cache",
   "results": [
-    {"product_id":"P003","title":"Noise Cancelling Headphones","score":0.42},
-    ...
+    {"product_id":"P003","title":"Noise Cancelling Headphones","score":0.42}
   ]
 }
 ```
@@ -200,8 +194,7 @@ Response:
 {
   "source": "model or cache",
   "results": [
-    {"product_id":"P005","score":0.87},
-    ...
+    {"product_id":"P005","score":0.87}
   ]
 }
 ```
@@ -216,8 +209,7 @@ Response:
 {
   "source": "model or cache",
   "results": [
-    {"product_id":"P003","title":"Noise Cancelling Headphones","score":0.61},
-    ...
+    {"product_id":"P003","title":"Noise Cancelling Headphones","score":0.61}
   ]
 }
 ```
@@ -269,7 +261,7 @@ content|product_id:P001|top_k:10
 
 ## 11. Evaluation notes
 
-This repository includes a small synthetic dataset. For a real store you should:
+This repository includes a small synthetic dataset. For a real store you should
 
 * Define an offline metric such as Precision at K or Recall at K
 * Split interactions into train and test by time
@@ -281,14 +273,14 @@ You can add a `reports` folder for plots, tables, and experiment summaries.
 
 ## 12. Deployment notes
 
-Gunicorn behind a production server
+Run with Gunicorn behind a production server
 
 ```bash
 pip install gunicorn
 gunicorn -w 2 -b 0.0.0.0:5000 app:app
 ```
 
-Sample Docker Compose for Flask plus Redis
+Docker Compose for Flask plus Redis
 
 ```yaml
 version: "3.9"
@@ -310,7 +302,7 @@ services:
       - "6379:6379"
 ```
 
-For Render or Railway
+Render or Railway
 
 * Set environment variables for Redis connection
 * Add a start command that runs gunicorn
@@ -341,6 +333,106 @@ Fix: Ensure the product id exists in `data/products.csv` and that title category
 
 MIT or choose a license that fits your use case
 
----
+## 16. .gitignore
 
-If you want, I can also add a `.gitignore` section and a minimal `Dockerfile` to the repo so the Deploy to cloud story is one click.
+Create a `.gitignore` file in the repository root with the content below to keep the repo clean.
+
+```gitignore
+# Byte code and caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dylib
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+.env/
+.env.local
+.venv/
+
+# OS and editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Logs
+logs/
+*.log
+
+# Local overrides
+.env
+```
+
+Notes
+
+* Keep `data/` in version control for the small demo CSVs
+* Do not commit real customer data or secrets
+
+## 17. Dockerfile
+
+Create a `Dockerfile` in the repository root for container based deployment.
+
+```dockerfile
+# Minimal production friendly image
+FROM python:3.11-slim
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+  && rm -rf /var/lib/apt/lists/*
+
+# Workdir
+WORKDIR /app
+
+# Install Python deps first for better layer caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy app source
+COPY . .
+
+# Environment
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV REDIS_HOST=redis
+ENV REDIS_PORT=6379
+ENV REDIS_DB=0
+
+# Expose port
+EXPOSE 5000
+
+# Start with gunicorn
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "app:app"]
+```
+
+Build and run locally
+
+```bash
+docker build -t ecommerce-recommender:latest .
+docker run --rm -p 5000:5000 \
+  -e REDIS_HOST=host.docker.internal \
+  -e REDIS_PORT=6379 \
+  ecommerce-recommender:latest
+```
+
+If you want Redis inside Docker too, use the provided docker compose file.
+
+```
+
+---
