@@ -433,4 +433,3 @@ If you want Redis inside Docker too, use the provided docker compose file.
 
 ```
 
----
